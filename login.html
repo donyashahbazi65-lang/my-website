@@ -15,3 +15,174 @@
     حساب نداری؟ <a href="#" onclick="toggleMode()">ثبت‌نام کن</a>
   </p>
 </div>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>ثبت‌نام / ورود</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>🎯 ثبت‌نام یا ورود</h1>
+    <nav>
+      <a href="index.html">خانه</a>
+    </nav>
+  </header>
+
+  <section class="form-container">
+    <h2>فرم ثبت‌نام</h2>
+    <input type="text" id="signup-name" placeholder="نام کامل">
+    <input type="email" id="signup-email" placeholder="ایمیل">
+    <input type="password" id="signup-password" placeholder="رمز عبور">
+    <button id="signup-btn">ثبت‌نام</button>
+
+    <h2 style="margin-top:30px;">فرم ورود</h2>
+    <input type="email" id="login-email" placeholder="ایمیل">
+    <input type="password" id="login-password" placeholder="رمز عبور">
+    <button id="login-btn">ورود</button>
+
+    <p id="message" style="color:red; margin-top:20px;"></p>
+  </section>
+
+  <!-- اتصال به فایربیس -->
+  <script type="module">
+    import {
+      auth, db,
+      createUserWithEmailAndPassword, signInWithEmailAndPassword,
+      setDoc, doc, updateProfile
+    } from "./mockfirebase.js";
+
+    const msg = document.getElementById("message");
+
+    // 📌 ثبت‌نام
+    document.getElementById("signup-btn").addEventListener("click", async () => {
+      const name = document.getElementById("signup-name").value;
+      const email = document.getElementById("signup-email").value;
+      const password = document.getElementById("signup-password").value;
+
+      try {
+        const userCred = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(userCred.user, { displayName: name });
+
+        // ذخیره‌ی اطلاعات در Firestore
+        await setDoc(doc(db, "users", userCred.user.uid), {
+          name: name,
+          email: email,
+          plan: sessionStorage.getItem("selectedPlan") || "free",
+          createdAt: new Date()
+        });
+
+        msg.style.color = "green";
+        msg.textContent = "ثبت‌نام موفقیت‌آمیز بود! ✅";
+        setTimeout(() => window.location.href = "dashboard.html", 1500);
+
+      } catch (e) {
+        msg.style.color = "red";
+        msg.textContent = "خطا در ثبت‌نام: " + e.message;
+      }
+    });
+
+    // 📌 ورود
+    document.getElementById("login-btn").addEventListener("click", async () => {
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        msg.style.color = "green";
+        msg.textContent = "ورود موفقیت‌آمیز بود! ✅";
+        setTimeout(() => window.location.href = "dashboard.html", 1500);
+
+      } catch (e) {
+        msg.style.color = "red";
+        msg.textContent = "خطا در ورود: " + e.message;
+      }
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>ثبت‌نام / ورود (ماک)</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>🎯 ثبت‌نام یا ورود</h1>
+    <nav>
+      <a href="index.html">خانه</a>
+    </nav>
+  </header>
+
+  <section class="form-container">
+    <h2>فرم ثبت‌نام</h2>
+    <input type="text" id="signup-name" placeholder="نام کامل">
+    <input type="email" id="signup-email" placeholder="ایمیل">
+    <input type="password" id="signup-password" placeholder="رمز عبور">
+    <button id="signup-btn">ثبت‌نام</button>
+
+    <h2 style="margin-top:30px;">فرم ورود</h2>
+    <input type="email" id="login-email" placeholder="ایمیل">
+    <input type="password" id="login-password" placeholder="رمز عبور">
+    <button id="login-btn">ورود</button>
+
+    <p id="message" style="color:red; margin-top:20px;"></p>
+  </section>
+
+  <!-- اتصال به mockFirebase -->
+  <script type="module">
+    import {
+      auth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      updateProfile
+    } from "./mockFirebase.js";
+
+    const msg = document.getElementById("message");
+
+    // 📌 ثبت‌نام
+    document.getElementById("signup-btn").addEventListener("click", async () => {
+      const name = document.getElementById("signup-name").value;
+      const email = document.getElementById("signup-email").value;
+      const password = document.getElementById("signup-password").value;
+
+      try {
+        const userCred = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(userCred.user, { displayName: name });
+
+        msg.style.color = "green";
+        msg.textContent = "ثبت‌نام موفقیت‌آمیز بود! ✅";
+        setTimeout(() => window.location.href = "dashboard.html", 1200);
+
+      } catch (e) {
+        msg.style.color = "red";
+        msg.textContent = "خطا در ثبت‌نام: " + e.message;
+      }
+    });
+
+    // 📌 ورود
+    document.getElementById("login-btn").addEventListener("click", async () => {
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        msg.style.color = "green";
+        msg.textContent = "ورود موفقیت‌آمیز بود! ✅";
+        setTimeout(() => window.location.href = "dashboard.html", 1200);
+
+      } catch (e) {
+        msg.style.color = "red";
+        msg.textContent = "خطا در ورود: " + e.message;
+      }
+    });
+  </script>
+</body>
+</html>
