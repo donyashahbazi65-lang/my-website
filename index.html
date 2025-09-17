@@ -1,55 +1,150 @@
-<!DOCTYPE html>
-<html lang="fa">
+<!doctype html>
+<html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>سایت من</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lynera | لاینرا - درباره ما و پلن‌ها</title>
+  <meta name="description" content="Lynera؛ پلتفرم قوی برای برنامه‌ریزی و رشد فردی. درباره‌ ما، فلسفه‌ی لوگو، و پلن‌های کاربردی." />
+  <link rel="canonical" href="/" />
+  <meta property="og:title" content="Lynera لاینرا">
+  <meta property="og:description" content="درباره لاینرا, محتوای مأموریت و پلن‌ها">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fa_IR">
+  <meta property="og:image" content="/logo.png">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="preload" href="/logo.png" as="image">
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <!-- هدر -->
-  <header>
-    <h1>👋 خوش اومدی به سایت ما</h1>
+
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="/">
+      <img src="./logo.png" alt="لوگوی Lynera" width="36" height="36"><span>Lynera</span>
+    </a>
     <nav>
-      <a href="index.html">خانه</a>
-      <a href="login.html">ثبت‌نام / ورود</a>
+      <a href="#about">درباره ما</a>
+      <a href="#mission">لوگو و محتوا</a>
+      <a href="#pricing">پلن‌ها</a>
+      <a class="btn btn-outline" href="./login.html#login">ورود</a>
+      <a class="btn" href="./login.html#signup">ثبت‌نام</a>
     </nav>
-  </header>
+  </div>
+</header>
 
-  <!-- پلن‌ها -->
-  <section class="plans">
-    <div class="plan">
-      <h3>رایگان 🎁</h3>
-      <p class="price">0 تومان / ماه</p>
-      <ul>
-        <li>✅ دسترسی محدود</li>
-        <li>✅ شروع رایگان</li>
-        <li>❌ پشتیبانی ویژه</li>
-      </ul>
-      <a href="login.html"><button>انتخاب</button></a>
-    </div>
+<main>
 
-    <div class="plan popular">
-      <div class="badge">محبوب‌ترین ⭐</div>
-      <h3>ساده 🚀</h3>
-      <p class="price">90,000 تومان / ماه</p>
-      <ul>
-        <li>✅ مشاوره پایه</li>
-        <li>✅ همراه هوش مصنوعی</li>
-        <li>❌ امکانات حرفه‌ای</li>
-      </ul>
-      <a href="login.html"><button>انتخاب</button></a>
-    </div>
-
-    <div class="plan">
-      <h3>حرفه‌ای 💎</h3>
-      <p class="price">190,000 تومان / ماه</p>
-      <ul>
-        <li>✅ امکانات کامل</li>
-        <li>✅ پشتیبانی ویژه</li>
-        <li>✅ نامحدود</li>
-      </ul>
-      <a href="login.html"><button>انتخاب</button></a>
+  <!-- درباره ما -->
+  <section id="about" class="section">
+    <div class="container grid-2">
+      <div>
+        <h1>لنیره؛ قلمِ قدرتمندِ برنامه‌ریزی تو</h1>
+        <p>
+          ما توی <strong>Lynera</strong> کمک می‌کنیم روزت رو «قانونمند و قابل‌پیگیری» جلو ببری:
+          هدف‌گذاری، قدم‌بندی و گزارش پیشرفت—همه با رابط فارسی، ساده و سریع.
+        </p>
+        <ul class="ticks">
+          <li>قابلیت شروع سریع و رایگان</li>
+          <li>قالب واکنش‌گرا و راست‌به‌چپ</li>
+          <li>حریم خصوصی شفاف</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>قرارِ چیکار کنیم؟</h3>
+        <p>
+          پلنرهای روزانه/هفتگی، تمرین‌های ۵ دقیقه‌ای تمرکز و گزارش‌های قابل دانلود؛
+          تا قله‌های شخصی‌ت رو یکی‌یکی فتح کنی.
+        </p>
+        <a class="btn block" href="#pricing">دیدن پلن‌ها</a>
+      </div>
     </div>
   </section>
+
+  <!-- لوگو و محتوای برند -->
+  <section id="mission" class="section">
+    <div class="container cards two">
+      <article class="card">
+        <h3>لوگو چی می‌گه؟</h3>
+        <p>
+          برگِ «L» نشانه‌ی رشد و سبزیه؛ یعنی هر قدم کوچیک، قله‌ای بزرگ می‌سازه.
+          رنگ سبزِ لوگو <b>#5E8C6A</b> حسِ آرامش + پیشرفت رو می‌ده.
+        </p>
+        <div class="mini-card">
+          <img src="./logo.png" alt="لوگو" width="44" height="44">
+          <div><strong>Lynera</strong><small>قلبی برای قدرت برنامه‌ریزی</small></div>
+        </div>
+      </article>
+      <article class="card">
+        <h3>ماموریت محتوا</h3>
+        <p>
+          محتوای کوتاه و کاربردی: راهنماهای هدف‌گذاری، چک‌لیست‌های روزانه،
+          و نکته‌های تمرکز—همه به زبان ساده و خلاصه.
+        </p>
+        <a class="btn btn-light" href="./login.html#signup">شروع رایگان</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- پلن‌ها (مثل اسکرین‌شاتت) -->
+  <section id="pricing" class="section">
+    <div class="container">
+      <h2>پلن‌های قیمت‌گذاری</h2>
+      <div class="cards three">
+        <article class="card plan">
+          <div class="plan-badge">رایگان 🧰</div>
+          <h3>۰ تومان / ماه</h3>
+          <ul class="plan-list">
+            <li>دسترسی پایه</li>
+            <li>شروع سریع</li>
+            <li class="muted">بدون پشتیبانی ویژه</li>
+          </ul>
+          <a class="btn block" href="./login.html#signup">انتخاب</a>
+        </article>
+        <article class="card plan plan-featured">
+          <div class="plan-badge">محبوب‌ترین 🚀</div>
+          <h3>۹۰,۰۰۰ / ماه</h3>
+          <ul class="plan-list">
+            <li>امکانات پایه +</li>
+            <li>گزارش PDF</li>
+            <li>یادآور هوشمند</li>
+          </ul>
+          <a class="btn block" href="./login.html#signup">انتخاب</a>
+        </article>
+        <article class="card plan">
+          <div class="plan-badge">حرفه‌ای 💎</div>
+          <h3>۱۹۰,۰۰۰ / ماه</h3>
+          <ul class="plan-list">
+            <li>تمام امکانات</li>
+            <li>پشتیبانی اولویت‌دار</li>
+            <li>گزارش‌های پیشرفته</li>
+          </ul>
+          <a class="btn block" href="./login.html#signup">انتخاب</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA نهایی -->
+  <section class="callout section">
+    <div class="container callout-inner">
+      <h3>قشنگ شروع کن؛ قدم اول همین حالاست</h3>
+      <a class="btn btn-light" href="./login.html#signup">ثبت‌نام</a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <span class="brand"><img src="./logo.png" width="28" height="28" alt=""><span>Lynera</span></span>
+      <p class="muted">© <span id="year"></span> Lynera — همه حقوق محفوظ است.</p>
+    </div>
+    <nav class="footer-links">
+      <a href="#about">درباره</a><a href="#mission">لوگو/محتوا</a><a href="#pricing">پلن‌ها</a><a href="./login.html">ورود/ثبت‌نام</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="./app.js" defer></script>
 </body>
 </html>

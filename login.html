@@ -1,188 +1,56 @@
-<div class="form-container">
-  <h2 id="form-title">ورود</h2>
-  
-  <form id="auth-form" onsubmit="handleAuth(event)">
-    <label>ایمیل</label>
-    <input type="email" id="email" required>
-    
-    <label>رمز عبور</label>
-    <input type="password" id="password" required>
-    
-    <button type="submit" id="submit-btn">ورود</button>
-  </form>
-  
-  <p id="toggle-text">
-    حساب نداری؟ <a href="#" onclick="toggleMode()">ثبت‌نام کن</a>
-  </p>
-</div>
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>ثبت‌نام / ورود</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lynera | ثبت‌نام و ورود</title>
+  <meta name="description" content="ثبت‌نام یا ورود به حساب کاربری Lynera.">
+  <link rel="canonical" href="/login.html" />
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="./style.css">
 </head>
-<body>
-  <header>
-    <h1>🎯 ثبت‌نام یا ورود</h1>
+<body class="auth-body">
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="./">
+      <img src="./logo.png" alt="Lynera" width="36" height="36"><span>Lynera</span>
+    </a>
     <nav>
-      <a href="index.html">خانه</a>
+      <a href="./">خانه</a>
+      <a href="./#pricing">پلن‌ها</a>
+      <a class="btn btn-outline" href="#login">ورود</a>
+      <a class="btn" href="#signup">ثبت‌نام</a>
     </nav>
-  </header>
+  </div>
+</header>
 
-  <section class="form-container">
-    <h2>فرم ثبت‌نام</h2>
-    <input type="text" id="signup-name" placeholder="نام کامل">
-    <input type="email" id="signup-email" placeholder="ایمیل">
-    <input type="password" id="signup-password" placeholder="رمز عبور">
-    <button id="signup-btn">ثبت‌نام</button>
+<main class="section">
+  <div class="container auth-grid" id="formsTop">
+    <section id="signup" class="auth-card card">
+      <h2>فرم ثبت‌نام</h2>
+      <form id="signupForm" class="form">
+        <label>نام کامل
+          <input type="text" name="name" required placeholder="نام و نام خانوادگی">
+        </label>
+        <label>ایمیل
+          <input type="email" name="email" required placeholder="you@example.com" inputmode="email" autocomplete="email">
+        </label>
+        <label>رمز عبور
+          <input type="password" name="password" required minlength="6" placeholder="حداقل ۶ کاراکتر" autocomplete="new-password">
+        </label>
+        <button class="btn block" type="submit">ثبت‌نام</button>
+        <p class="muted small">حساب داری؟ <a href="#login" class="link">ورود</a></p>
+      </form>
+    </section>
 
-    <h2 style="margin-top:30px;">فرم ورود</h2>
-    <input type="email" id="login-email" placeholder="ایمیل">
-    <input type="password" id="login-password" placeholder="رمز عبور">
-    <button id="login-btn">ورود</button>
-
-    <p id="message" style="color:red; margin-top:20px;"></p>
-  </section>
-
-  <!-- اتصال به فایربیس -->
-  <script type="module">
-    import {
-      auth, db,
-      createUserWithEmailAndPassword, signInWithEmailAndPassword,
-      setDoc, doc, updateProfile
-    } from "./mockfirebase.js";
-
-    const msg = document.getElementById("message");
-
-    // 📌 ثبت‌نام
-    document.getElementById("signup-btn").addEventListener("click", async () => {
-      const name = document.getElementById("signup-name").value;
-      const email = document.getElementById("signup-email").value;
-      const password = document.getElementById("signup-password").value;
-
-      try {
-        const userCred = await createUserWithEmailAndPassword(auth, email, password);
-        await updateProfile(userCred.user, { displayName: name });
-
-        // ذخیره‌ی اطلاعات در Firestore
-        await setDoc(doc(db, "users", userCred.user.uid), {
-          name: name,
-          email: email,
-          plan: sessionStorage.getItem("selectedPlan") || "free",
-          createdAt: new Date()
-        });
-
-        msg.style.color = "green";
-        msg.textContent = "ثبت‌نام موفقیت‌آمیز بود! ✅";
-        setTimeout(() => window.location.href = "dashboard.html", 1500);
-
-      } catch (e) {
-        msg.style.color = "red";
-        msg.textContent = "خطا در ثبت‌نام: " + e.message;
-      }
-    });
-
-    // 📌 ورود
-    document.getElementById("login-btn").addEventListener("click", async () => {
-      const email = document.getElementById("login-email").value;
-      const password = document.getElementById("login-password").value;
-
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        msg.style.color = "green";
-        msg.textContent = "ورود موفقیت‌آمیز بود! ✅";
-        setTimeout(() => window.location.href = "dashboard.html", 1500);
-
-      } catch (e) {
-        msg.style.color = "red";
-        msg.textContent = "خطا در ورود: " + e.message;
-      }
-    });
-  </script>
-</body>
-</html>
-
-
-
-
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <title>ثبت‌نام / ورود (ماک)</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header>
-    <h1>🎯 ثبت‌نام یا ورود</h1>
-    <nav>
-      <a href="index.html">خانه</a>
-    </nav>
-  </header>
-
-  <section class="form-container">
-    <h2>فرم ثبت‌نام</h2>
-    <input type="text" id="signup-name" placeholder="نام کامل">
-    <input type="email" id="signup-email" placeholder="ایمیل">
-    <input type="password" id="signup-password" placeholder="رمز عبور">
-    <button id="signup-btn">ثبت‌نام</button>
-
-    <h2 style="margin-top:30px;">فرم ورود</h2>
-    <input type="email" id="login-email" placeholder="ایمیل">
-    <input type="password" id="login-password" placeholder="رمز عبور">
-    <button id="login-btn">ورود</button>
-
-    <p id="message" style="color:red; margin-top:20px;"></p>
-  </section>
-
-  <!-- اتصال به mockFirebase -->
-  <script type="module">
-    import {
-      auth,
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword,
-      updateProfile
-    } from "./mockFirebase.js";
-
-    const msg = document.getElementById("message");
-
-    // 📌 ثبت‌نام
-    document.getElementById("signup-btn").addEventListener("click", async () => {
-      const name = document.getElementById("signup-name").value;
-      const email = document.getElementById("signup-email").value;
-      const password = document.getElementById("signup-password").value;
-
-      try {
-        const userCred = await createUserWithEmailAndPassword(auth, email, password);
-        await updateProfile(userCred.user, { displayName: name });
-
-        msg.style.color = "green";
-        msg.textContent = "ثبت‌نام موفقیت‌آمیز بود! ✅";
-        setTimeout(() => window.location.href = "dashboard.html", 1200);
-
-      } catch (e) {
-        msg.style.color = "red";
-        msg.textContent = "خطا در ثبت‌نام: " + e.message;
-      }
-    });
-
-    // 📌 ورود
-    document.getElementById("login-btn").addEventListener("click", async () => {
-      const email = document.getElementById("login-email").value;
-      const password = document.getElementById("login-password").value;
-
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        msg.style.color = "green";
-        msg.textContent = "ورود موفقیت‌آمیز بود! ✅";
-        setTimeout(() => window.location.href = "dashboard.html", 1200);
-
-      } catch (e) {
-        msg.style.color = "red";
-        msg.textContent = "خطا در ورود: " + e.message;
-      }
-    });
-  </script>
-</body>
-</html>
+    <section id="login" class="auth-card card">
+      <h2>فرم ورود</h2>
+      <form id="loginForm" class="form">
+        <label>ایمیل
+          <input type="email" name="email" required placeholder="you@example.com" inputmode="email" autocomplete="email">
+        </label>
+        <label>رمز عبور
+          <input type="password" name="password" required minlength="6" placeholder="******" autocomplete="current-password">
+        </label>
+        <button class="btn block" type="submit">ورود</button>
+        <p class

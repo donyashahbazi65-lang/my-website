@@ -1,81 +1,53 @@
-let isLogin = true; // حالت پیش‌فرض: ورود
+// سال فوتر
+document.addEventListener('DOMContentLoaded', () => {
+  const yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-function toggleMode() {
-  isLogin = !isLogin;
-  document.getElementById("form-title").innerText = isLogin ? "ورود" : "ثبت‌نام";
-  document.getElementById("submit-btn").innerText = isLogin ? "ورود" : "ثبت‌نام";
-  document.getElementById("toggle-text").innerHTML = isLogin
-    ? 'حساب نداری؟ <a href="#" onclick="toggleMode()">ثبت‌نام کن</a>'
-    : 'حساب داری؟ <a href="#" onclick="toggleMode()">وارد شو</a>';
-}
+  // اگر در auth.html هَش داشتیم ( #signup یا #login ) فرم‌ها بیاد بالا
+  if (location.pathname.endsWith('/auth.html') && (location.hash === '#signup' || location.hash === '#login')) {
+    const el = document.querySelector(location.hash);
+    if (el) { el.scrollIntoView({behavior:'instant', block:'start'}); }
+  }
 
-function handleAuth(e) {
-  e.preventDefault();
-  
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  
-  let users = JSON.parse(localStorage.getItem("users")) || [];
-  
-  if (isLogin) {
-    // ورود
-    const user = users.find(u => u.email === email && u.password === password);
-    if (user) {
-      localStorage.setItem("loggedInUser", JSON.stringify(user));
-      window.location.href = "dashboard.html";
-    } else {
-      alert("ایمیل یا رمز عبور اشتباه است ❌");
+  // ثبت‌نامِ نمایشی (سمت کلاینت) — بعدا به بک‌اند وصل کن
+  const signup = document.getElementById('signupForm');
+  if (signup) {
+    signup.addEventListener('submit', (e) => {
+      e.preventDefault();
+      // اعتبارسنجی ساده
+      const fd = new FormData(signup);
+      if (!fd.get('email') || !fd.get('password')) return;
+      localStorage.setItem('lynera_user', JSON.stringify({name: fd.get('name') || 'کاربر Lynera'}));
+      location.href = '/dashboard.html';
+    });
+  }
+
+  // ورودِ نمایشی
+  const login = document.getElementById('loginForm');
+  if (login) {
+    login.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const fd = new FormData(login);
+      if (!fd.get('email') || !fd.get('password')) return;
+      localStorage.setItem('lynera_user', JSON.stringify({name: fd.get('email')}));
+      location.href = '/dashboard.html';
+    });
+  }
+
+  // حفاظت خیلی سادهٔ داشبوردِ نمونه (اختیاری)
+  if (location.pathname.endsWith('/dashboard.html')) {
+    const user = localStorage.getItem('lynera_user');
+    if (!user) {
+      location.replace('/auth.html#login');
     }
-  } else {
-    // ثبت‌نام
-    const exists = users.some(u => u.email === email);
-    if (exists) {
-      alert("این ایمیل قبلاً ثبت‌نام کرده ✅");
-    } else {
-      users.push({ email, password, plan: "free" });
-      localStorage.setItem("users", JSON.stringify(users));
-      alert("ثبت‌نام با موفقیت انجام شد 🎉 حالا وارد شو");
-      toggleMode();
-    }
-  }
-}
-
-function logout() {
-  localStorage.removeItem("loggedInUser");
-  window.location.href = "index.html";
-}
-function loadDashboard() {
-  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-  if (!loggedInUser) {
-    window.location.href = "login.html";
-    return;
   }
 
-  document.getElementById("welcome").innerText = `سلام 👋 ${loggedInUser.email}`;
-  
-  userPlan = loggedInUser.plan || "free";
-  const p = plans[userPlan];
-
-  document.getElementById("plan-name").innerText = p.name;
-
-  const planFeaturesEl = document.getElementById("plan-features");
-  planFeaturesEl.innerHTML = "";
-  p.features.forEach(f => {
-    const li = document.createElement("li");
-    li.textContent = f;
-    planFeaturesEl.appendChild(li);
-  });
-
-  const upgradeBtn = document.getElementById("upgrade-btn");
-  if (p.upgrade) {
-    upgradeBtn.style.display = "inline-block";
-    upgradeBtn.innerText = p.upgrade;
-    upgradeBtn.onclick = () => {
-      loggedInUser.plan = userPlan === "free" ? "basic" : "pro";
-      localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
-      loadDashboard();
-    };
-  } else {
-    upgradeBtn.style.display = "none";
+  // خروج
+  const logoutBtn = document.getElementById('logoutBtn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('lynera_user');
+      location.href = '/';
+    });
   }
-}
+});

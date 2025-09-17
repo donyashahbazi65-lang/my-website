@@ -1,109 +1,58 @@
-<h2 id="welcome">سلام 👋</h2>
-<p>پلن فعال شما: <strong id="plan-name">—</strong>
-    <!DOCTYPE html>
+<!doctype html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>داشبورد</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lynera | داشبورد</title>
+  <meta name="description" content="داشبورد شخصی کاربر در Lynera">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <header>
-    <h1>📋 داشبورد من</h1>
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="/">
+      <img src="/assets/logo.png" alt="Lynera" width="32" height="32"><span>Lynera</span>
+    </a>
     <nav>
-      <a href="index.html">خانه</a>
-      <button id="logout-btn" style="background:red; color:white; padding:8px 15px; border:none; border-radius:6px; cursor:pointer;">خروج</button>
+      <a href="/">خانه</a>
+      <button class="btn btn-outline" id="logoutBtn" type="button">خروج</button>
     </nav>
-  </header>
+  </div>
+</header>
 
-  <section class="dashboard">
-    <h2 id="welcome">سلام کاربر!</h2>
-    <p id="plan-info">پلن شما: ...</p>
+<main class="section">
+  <div class="container">
+    <h1>خوش اومدی! 👋</h1>
+    <p class="muted">این یه داشبورد نمونه‌ست. بعداً می‌تونی ویجت‌ها و دیتاهای واقعی رو اینجا بیاری.</p>
 
-    <hr style="margin:20px 0;">
+    <div class="cards three">
+      <article class="card">
+        <h3>هدف‌های امروز</h3>
+        <ul class="list">
+          <li>قدم ۱: ۳۰ دقیقه تمرکز</li>
+          <li>قدم ۲: جمع‌بندی کوتاه</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h3>برنامهٔ هفتگی</h3>
+        <p>یک نگاه سریع به کارهای این هفته.</p>
+      </article>
+      <article class="card">
+        <h3>گزارش پیشرفت</h3>
+        <p>روند پیشرفت تو یک نمودار ساده (بعداً بک‌اند).</p>
+      </article>
+    </div>
+  </div>
+</main>
 
-    <h3>چک‌لیست روزانه ✅</h3>
-    <ul id="todo-list"></ul>
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="brand"><img src="/assets/logo.png" alt="" width="24" height="24"><span>Lynera</span></div>
+    <p class="muted">© <span id="year"></span> Lynera</p>
+  </div>
+</footer>
 
-    <input type="text" id="new-task" placeholder="تسک جدیدت رو بنویس">
-    <button id="add-task">➕ افزودن</button>
-  </section>
-
-  <script type="module">
-    import {
-      auth, db,
-      onAuthStateChanged, signOut,
-      doc, getDoc, collection, addDoc, getDocs, updateDoc
-    } from "./firebase.js";
-
-    const welcome = document.getElementById("welcome");
-    const planInfo = document.getElementById("plan-info");
-    const todoList = document.getElementById("todo-list");
-    const addTaskBtn = document.getElementById("add-task");
-    const newTaskInput = document.getElementById("new-task");
-    const logoutBtn = document.getElementById("logout-btn");
-
-    let currentUser = null;
-
-    // 📌 چک کردن وضعیت ورود
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        currentUser = user;
-        welcome.textContent = `سلام ${user.displayName || "دوست عزیز"}!`;
-
-        // گرفتن اطلاعات کاربر از Firestore
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        if (userDoc.exists()) {
-          const data = userDoc.data();
-          planInfo.textContent = `پلن شما: ${data.plan || "رایگان"}`;
-        }
-
-        loadTodos();
-      } else {
-        window.location.href = "login.html";
-      }
-    });
-
-    // 📌 گرفتن تسک‌ها از Firestore
-    async function loadTodos() {
-      todoList.innerHTML = "";
-      const q = await getDocs(collection(db, "users", currentUser.uid, "todos"));
-      q.forEach(docSnap => {
-        const li = document.createElement("li");
-        const data = docSnap.data();
-        li.textContent = data.text;
-        li.style.cursor = "pointer";
-        if (data.done) li.style.textDecoration = "line-through";
-
-        li.addEventListener("click", async () => {
-          await updateDoc(doc(db, "users", currentUser.uid, "todos", docSnap.id), {
-            done: !data.done
-          });
-          loadTodos();
-        });
-
-        todoList.appendChild(li);
-      });
-    }
-
-    // 📌 افزودن تسک جدید
-    addTaskBtn.addEventListener("click", async () => {
-      const text = newTaskInput.value.trim();
-      if (!text) return;
-      await addDoc(collection(db, "users", currentUser.uid, "todos"), {
-        text,
-        done: false,
-        createdAt: new Date()
-      });
-      newTaskInput.value = "";
-      loadTodos();
-    });
-
-    // 📌 خروج
-    logoutBtn.addEventListener("click", async () => {
-      await signOut(auth);
-      window.location.href = "login.html";
-    });
-  </script>
+<script src="/app.js" defer></script>
 </body>
 </html>
