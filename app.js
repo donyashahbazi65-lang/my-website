@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (el) { el.scrollIntoView({behavior:'instant', block:'start'}); }
   }
 
-  // ثبت‌نامِ نمایشی (سمت کلاینت) — بعدا به بک‌اند وصل کن
+  // ثبت‌نامِ نمایشی (سمت کلاینت) — بعدا به بک‌اند وصل شه
   const signup = document.getElementById('signupForm');
   if (signup) {
     signup.addEventListener('submit', (e) => {
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // حفاظت خیلی سادهٔ داشبوردِ نمونه (اختیاری)
+  // حفاظت خیلی سادهٔ داشبوردِ نمونه
   if (location.pathname.endsWith('/dashboard.html')) {
     const user = localStorage.getItem('lynera_user');
     if (!user) {
